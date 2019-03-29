@@ -1,0 +1,144 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include "VideoClip.h"
+using namespace std;
+
+
+char menue()
+{
+	
+	cout<<"=============" << endl;
+	cout << "==== Menu====" << endl;
+	cout << " press (1) to read." << endl;
+	cout << " press (2) to write." << endl;
+	cout << " press (3) to display." << endl;
+	cout << " press (4) to ." << endl;
+	cout << " press (5) to ." << endl;
+	cout << " press (?) for help." << endl;
+	cout << " press (0) to exit." << endl;
+	
+	
+	char option;
+	cout << " enter in option";
+	cin >> option;
+	cin.ignore();
+	return option;
+}
+
+template<typename T, int size>
+void display (T (&a) [size])
+{ 
+
+	for ( T &t : a )
+	
+		cout << t << endl;
+	
+
+}
+
+template<typename T, int size>
+void read(T(&a)[size])
+{
+
+	string filename;
+	cout << " Enter filename";
+	cin >> filename;
+
+	ifstream fin(filename);
+	
+	for (T &t : a) {
+		fin >> t;
+	}
+	fin.close();
+}
+
+template<typename T, int size>
+void write(T(&a)[size])
+{
+	cout << " save as";
+	string filename;
+	cin >> filename;
+	
+	ofstream fout(filename, ios::app);
+	for (T t : a) {
+		fout << t;
+	}
+	fout.close();
+}
+
+
+template<typename T, int size>
+void search(T(&a)[size]) {
+	string name;
+	cout << "what is th ebame of the video you are lookign for";	
+
+	getline(cin, name);
+
+	VideoClip object(name);
+
+	int pos = LinearSearch(a, object);
+	
+	if (pos != -1)
+		cout << a[pos] << endl;
+	else
+		cout << " Not found";
+
+}
+
+template<typename T, int size>
+void  sortASC(T(&a)[size]) {
+	for (int k = 1; k < size; k++)
+		for (int i = k; i > 0; i--)
+			if (a[i] < a[i - 1])
+				swap(a[i], a[i - 1]);
+			
+}
+
+
+template<typename T, int size>
+void sortDESC(T(&a)[size]) {
+	for (int k = 1; k < size; k++)
+		for (int i = k; i > 0; i--)
+			if (a[i] > a[i - 1]) {
+				swap(a[i], a[i - 1]);
+			}
+}
+
+void help()
+{
+	cout << " The cake is a lie " << endl;
+	
+	
+
+
+}
+
+int main()
+{
+
+
+	VideoClip array[40];
+
+	while (true) {
+
+		system("cls");
+		switch (menue())
+		{
+			
+		case '1': read(array); break;
+		case '2': write(array); break;
+		case '3': display(array); break;
+		case '4': sortASC(array); break;					////////// change this 
+		case '5': sortDESC(array); break;					////////// change this 
+		case '0': exit(0); break;
+		case '?': help(); break;
+		default: cout << " invalid option" << endl;
+		}
+
+		system("pause");
+
+	}
+
+	
+}
